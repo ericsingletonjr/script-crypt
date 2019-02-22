@@ -41,6 +41,23 @@ function Get-RandomStringNumberCombo
      "$(Get-RandomStringValue(5))-$(Get-RandomNumberPadded)-$(Get-RandomStringValue(5))"
 }
 
+function Get-HeaderType
+{
+    Param(
+        [string] $name
+    )
+    switch($name)
+    {
+        'Error' {return (Get-Random -Minimum 0 -Maximum 5)}
+        'ID' { return (Get-RandomNumberPadded)}
+        'MachineName' { return (Get-RandomStringNumberCombo)}
+        'Memory' { return (Get-RandomNumberValuePercent)}
+        'Space' {return (Get-RandomNumberValuePercent)}
+        'Event' {return (Get-RandomStringValue)}
+        'Message' {return (Get-RandomStringValue)}
+        'Level' {return (Get-Random -Minimum 0 -Maximum 5)}
+    }
+}
 # ------ GLOBAL VARIABLES ------ #
 # Grabs current directoy of the script
 $path = (Get-ScriptDirectory)
@@ -106,9 +123,9 @@ $seedData = @(0..($Count-1))
 foreach ($col in $seedData)
 {
     $seedData[$col] = [PSCustomObject]@{
-        $headerArray[0] = (Get-RandomStringValue)
-        $headerArray[1] = (Get-RandomStringNumberCombo)
-        $headerArray[2] = (Get-RandomNumberValuePercent)
+        $headerArray[0] = (Get-HeaderType($headerArray[0]))
+        $headerArray[1] = (Get-HeaderType($headerArray[1]))
+        $headerArray[2] = (Get-HeaderType($headerArray[2]))
     }
 }
 
