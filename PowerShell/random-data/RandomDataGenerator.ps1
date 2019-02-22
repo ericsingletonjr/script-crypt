@@ -40,8 +40,9 @@ function Get-RandomStringNumberCombo
 {
      "$(Get-RandomStringValue(5))-$(Get-RandomNumberPadded)-$(Get-RandomStringValue(5))"
 }
-
-function Get-HeaderType
+# Function used to take in the headers and assign types to the values
+# in the customObjects. 
+function Set-HeaderType
 {
     Param(
         [string] $name
@@ -123,9 +124,9 @@ $seedData = @(0..($Count-1))
 foreach ($col in $seedData)
 {
     $seedData[$col] = [PSCustomObject]@{
-        $headerArray[0] = (Get-HeaderType($headerArray[0]))
-        $headerArray[1] = (Get-HeaderType($headerArray[1]))
-        $headerArray[2] = (Get-HeaderType($headerArray[2]))
+        $headerArray[0] = (Set-HeaderType($headerArray[0]))
+        $headerArray[1] = (Set-HeaderType($headerArray[1]))
+        $headerArray[2] = (Set-HeaderType($headerArray[2]))
     }
 }
 
