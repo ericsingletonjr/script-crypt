@@ -1,6 +1,6 @@
 param (
     [System.Collections.ArrayList]$CustomSchema = @(),
-    [Int]$Count = 10
+    [Int]$Count
 )
 
 # ------ DEFINED FUNCTIONS ------ #

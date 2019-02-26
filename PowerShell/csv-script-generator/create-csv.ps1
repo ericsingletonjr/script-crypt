@@ -1,5 +1,6 @@
 param (
-    [string]$TableName = "table.csv"
+    [string]$TableName = "table",
+    [Int]$Count = 10
 )
 # Used to find the current directory of the script when running
 function Get-ScriptDirectory
@@ -12,8 +13,7 @@ $path = (Get-ScriptDirectory)
 # object to use to create our setup
 $CustomSchema = & '.\customSchema_create.ps1'
 
-# $CustomSchema
+# Creates our dummy data based off of the CustomObj
+$TemplateFromSchema = & '.\typeMethods.ps1' -CustomSchema ($CustomSchema) -Count $Count
 
-$TemplateFromSchema = & '.\typeMethods.ps1' -CustomSchema ($CustomSchema)
-
-$TemplateFromSchema | Export-Csv -Path $path'\seed.csv' -NoTypeInformation
+$TemplateFromSchema | Export-Csv -Path $path'\'$TableName'.csv' -NoTypeInformation
