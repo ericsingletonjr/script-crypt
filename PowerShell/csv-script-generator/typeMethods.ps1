@@ -1,5 +1,6 @@
 param (
-    [PSCustomObject]$CustomSchema = @{ }
+    [System.Collections.ArrayList]$CustomSchema = @(),
+    [Int]$Count = 10
 )
 
 # ------ DEFINED FUNCTIONS ------ #
@@ -21,7 +22,7 @@ function Get-RandomNumberValueDecimal
 # Used to create a random true/false for boolean values
 function Get-RandomNumberValueBool
 {
-    $check = Get-Random -Minimum 0 -Maximum 1
+    $check = Get-Random -Minimum 0 -Maximum 2
     switch($check)
     {
         0 {return $false}
@@ -60,3 +61,18 @@ function Get-HeaderType
         'char' {return Get-RandomStringValueChar}  
     }
 }
+
+$Template = @(0..($Count-1))
+# TODO Clean up hashtable values so csv isn't cluttered
+# with extra garbage
+for($i=0;$i -lt $Count; $i++)
+{
+    $Temp = [PSCustomObject]@{ }
+    for($j=0; $j -lt $CustomSchema[0].Count; $j++)
+    {
+        $Temp | Add-Member -MemberType NoteProperty -Name $CustomSchema[0].Header[$j] -Value (Get-HeaderType($CustomSchema[1].Type[$j]))
+    }
+    $Template[$i] = $Temp
+}
+
+return $Template

@@ -36,10 +36,20 @@ $ColTypes = (Set-ColTypes(Read-Host))
 # Here we create our empty customObject and then 
 # iterate through the ColNames and ColTypes to create our
 # schema object
-$CustomSchema = [PSCustomObject]@{ }
+$CustomSchemaHeaders = @(0..($ColNames.Count-1))
+$CustomSchemaTypes = @(0..($ColTypes.Count-1))
 
 for($i=0; $i -lt $ColNames.Count; $i++)
 {
-    $CustomSchema | Add-Member -MemberType NoteProperty -Name $ColNames[$i] -Value $ColTypes[$i]
+    [PSCustomObject]$HeadTemp = @{
+        Header = $ColNames[$i]
+    }
+    [PSCustomObject]$TypeTemp = @{
+        Type = $ColTypes[$i]
+    }
+    $CustomSchemaHeaders[$i] = $HeadTemp
+    $CustomSchemaTypes[$i] = $TypeTemp
+    # $CustomSchema | Add-Member -MemberType NoteProperty -Name $ColNames[$i] -Value $ColTypes[$i]
 }
-$CustomSchema
+[System.Collections.ArrayList]$CustomSchema = @($CustomSchemaHeaders,$CustomSchemaTypes)
+return $CustomSchema
